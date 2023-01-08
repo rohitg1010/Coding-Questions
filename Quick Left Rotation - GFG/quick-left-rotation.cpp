@@ -7,18 +7,20 @@ class Solution{
 	
 	
 	public:
+	void reverse(int nums[],int low,int high){
+        while(low<high){
+            swap(nums[low],nums[high]);
+            low++;
+            high--;
+        }
+    }
 	void leftRotate(int arr[], int k, int n) 
 	{ 
 	   // Your code goes here
 	   k%=n;
-	   int a[k];
-	   for(int i=0;i<k;i++) a[i]=arr[i];
-	   for(int i=k;i<n;i++){
-	       arr[i-k]=arr[i];
-	   }
-	   for(int i=0;i<k;i++){
-	       arr[n-k+i]=a[i];
-	   }
+	   reverse(arr,0,n-1);
+	   reverse(arr,0,n-k-1);
+	   reverse(arr,n-k,n-1);
 	} 
 		 
 
