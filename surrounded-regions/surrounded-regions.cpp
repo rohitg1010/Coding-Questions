@@ -1,59 +1,33 @@
 class Solution {
 public:
-    void dfs(int row, int col, vector<vector<int>> &vis, 
-    vector<vector<char>> &mat, int delrow[], int delcol[]) {
-        vis[row][col] = 1; 
-        int n = mat.size();
-        int m = mat[0].size();
-        
-        // check for top, right, bottom, left 
-        for(int i = 0;i<4;i++) {
-            int nrow = row + delrow[i];
-            int ncol = col + delcol[i]; 
-            // check for valid coordinates and unvisited Os
-            if(nrow >=0 && nrow <n && ncol >= 0 && ncol < m 
-            && !vis[nrow][ncol] && mat[nrow][ncol] == 'O') {
-                dfs(nrow, ncol, vis, mat, delrow, delcol); 
+    void dfs(int r,int c,vector<vector<char>> board,vector<vector<int>>& vis){
+        int n=board.size(),m=board[0].size();
+        // cout<<r<<" "<<c<<endl;
+        vis[r][c]=1;
+        int drow[]={-1,0,1,0},dcol[]={0,1,0,-1};
+        for(int i=0;i<4;i++){
+            int nr=r+drow[i],nc=c+dcol[i];
+            if(nr>=0&&nr<n&&nc>=0&&nc<m&&vis[nr][nc]==0&&board[nr][nc]=='O'){
+                dfs(nr,nc,board,vis);
             }
         }
     }
-    void solve(vector<vector<char>>& mat) {
-        int n=mat.size(),m=mat[0].size();
-        int delrow[] = {-1, 0, +1, 0};
-        int delcol[] = {0, 1, 0, -1}; 
-        vector<vector<int>> vis(n, vector<int>(m,0)); 
-        // traverse first row and last row 
-        for(int j = 0 ; j<m;j++) {
-            // check for unvisited Os in the boundary rows
-            // first row 
-            if(!vis[0][j] && mat[0][j] == 'O') {
-                dfs(0, j, vis, mat, delrow, delcol); 
-            }
-            
-            // last row 
-            if(!vis[n-1][j] && mat[n-1][j] == 'O') {
-                dfs(n-1,j,vis,mat, delrow, delcol); 
+    void solve(vector<vector<char>>& board) {
+        int n=board.size(),m=board[0].size();
+        vector<vector<int>> vis(n,vector<int>(m,0));
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if((i==0||j==0||i==n-1||j==m-1)){
+                    if(board[i][j]=='O'&&vis[i][j]==0){
+                        // cout<<i<<" "<<j<<endl;
+                        dfs(i,j,board,vis);
+                    }
+                }
             }
         }
-        
-        for(int i = 0;i<n;i++) {
-            // check for unvisited Os in the boundary columns
-            // first column 
-            if(!vis[i][0] && mat[i][0] == 'O') {
-                dfs(i, 0, vis, mat, delrow, delcol); 
-            }
-            
-            // last column
-            if(!vis[i][m-1] && mat[i][m-1] == 'O') {
-                dfs(i, m-1, vis, mat, delrow, delcol); 
-            }
-        }
-        
-        // if unvisited O then convert to X
-        for(int i = 0;i<n;i++) {
-            for(int j= 0 ;j<m;j++) {
-                if(!vis[i][j] && mat[i][j] == 'O') 
-                    mat[i][j] = 'X'; 
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(vis[i][j]==0) board[i][j]='X';
             }
         }
     }
