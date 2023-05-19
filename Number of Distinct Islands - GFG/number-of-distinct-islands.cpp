@@ -9,55 +9,36 @@ using namespace std;
 
 class Solution {
   public:
-    void dfs(int row, int col, vector < vector < int >> & vis,
-          vector < vector < int >> & grid, vector < pair < int, int >> & vec, int row0, 
-          int col0) {
-          // mark the cell as visited
-          vis[row][col] = 1;
-    
-          // coordinates - base coordinates
-          vec.push_back({
-            row - row0,
-            col - col0
-          });
-          int n = grid.size();
-          int m = grid[0].size();
-    
-          // delta row and delta column
-          int delrow[] = {-1, 0, +1, 0}; 
-          int delcol[] = {0, -1, 0, +1}; 
-    
-          // traverse all 4 neighbours
-          for (int i = 0; i < 4; i++) {
-            int nrow = row + delrow[i];
-            int ncol = col + delcol[i];
-            // check for valid unvisited land neighbour coordinates 
-            if (nrow >= 0 && nrow < n && ncol >= 0 && ncol < m &&
-              !vis[nrow][ncol] && grid[nrow][ncol] == 1) {
-              dfs(nrow, ncol, vis, grid, vec, row0, col0);
+    void dfs(int i,int j,vector<pair<int,int>>& v,vector<vector<int>>& grid,vector<vector<int>>& vis,int bi,int bc){
+        int drow[]={-1,0,1,0},dcol[]={0,1,0,-1};
+        int n=grid.size(),m=grid[0].size();
+        // int bi=i,bc=j;
+        for(int k=0;k<4;k++){
+            int nr=i+drow[k],nc=j+dcol[k];
+            if(nr>=0&&nr<n&&nc>=0&&nc<m&&!vis[nr][nc]&&grid[nr][nc]==1){
+                v.push_back({bi-nr,bc-nc});
+                vis[nr][nc]=1;
+                dfs(nr,nc,v,grid,vis,bi,bc);
             }
-          }
+        }
     }
     int countDistinctIslands(vector<vector<int>>& grid) {
         // code here
-        int n = grid.size();
-        int m = grid[0].size();
-        vector < vector < int >> vis(n, vector < int > (m, 0));
-        set < vector < pair < int, int >>> st;
-    
-          // traverse the grid
-          for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-              // if not visited and is a land cell
-              if (!vis[i][j] && grid[i][j] == 1) {
-                vector < pair < int, int >> vec;
-                dfs(i, j, vis, grid, vec, i, j);
-                // store in set
-                st.insert(vec);
-              }
+        int n=grid.size(),m=grid[0].size();
+        vector<vector<int>> vis(n,vector<int>(m,0));
+        set<vector<pair<int,int>>> st;
+        for(int i=0;i<n;i++){
+            for(int j=0;j<m;j++){
+                if(grid[i][j]==1&&!vis[i][j]){
+                    vis[i][j]=1;
+                    vector<pair<int,int>> v;
+                    v.push_back({0,0});
+                    dfs(i,j,v,grid,vis,i,j);
+                    st.insert(v);
+                }
             }
-          }
-          return st.size();
+        }
+        return st.size();
     }
 };
 
