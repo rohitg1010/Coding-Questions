@@ -1,29 +1,29 @@
 class Solution {
 public:
-    int color[101];               //color array is used to store visited nodes and color of nodes
-    
-    bool isBipartite(vector<vector<int>>& graph) {
-        int n=graph.size();
-        memset(color,-1,sizeof color);
-        
-        for(int i=0;i<n;i++){
-            if(color[i]==-1){
-                if(!dfs(i,0,graph))return false;
+    bool check(int start, int n, vector<vector<int>>& graph, int col[]){
+        queue<int> q;
+        q.push(start);
+        col[start]=0;
+        while(!q.empty()){
+            int node=q.front();
+            q.pop();
+            for(auto it:graph[node]){
+                if(col[it]==-1){
+                    col[it]=!col[node];
+                    q.push(it);
+                }
+                else if(col[it]==col[node]) return false;
             }
         }
         return true;
     }
-    
-    bool dfs(int ele,int c,vector<vector<int>>& graph){
-        
-        color[ele]=c;
-        
-        for(auto it:graph[ele]){
-            if(color[it]==-1){
-                if(!dfs(it,!c,graph))return false;                  // !c is marking the opposite color for childs
-            }
-            else{
-                if(color[it]==color[ele])return false;
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n=graph.size();
+        int col[n];
+        for(int i=0;i<n;i++) col[i]=-1;
+        for(int i=0;i<n;i++){
+            if(col[i]==-1){
+                if(check(i,n,graph,col)==false) return false;
             }
         }
         return true;
