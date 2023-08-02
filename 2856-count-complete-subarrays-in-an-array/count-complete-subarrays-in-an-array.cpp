@@ -1,18 +1,27 @@
 class Solution {
 public:
     int countCompleteSubarrays(vector<int>& nums) {
-    unordered_map<int, int> mp, all; 
-    for(auto n: nums) all[n]++;      //put all elements to get the size of discrete elements
-    int front = 0, back = 0, ans = 0;
-    while(front < nums.size()){
-        mp[nums[front]]++;
-        while(back <= front && mp.size() == all.size()){
-            if(--mp[nums[back]] == 0) mp.erase(nums[back]);  //update back pointer and map untill the condition satisfy
-            back++;
-            ans += (nums.size() - front);  //update answer - with number of array possible starting at pointer value of "back"
+        int n = nums.size();
+        unordered_set<int> freq;
+        
+        for(int i = 0; i < n; i++) {  //to count distinct ele
+            freq.insert(nums[i]);
         }
-        front++;
+        
+        int distinct = freq.size();
+        int ans = 0;
+    
+        for (int i = 0; i < n; i++) {
+            unordered_set<int> temp;
+
+            for(int j = i; j < n; j++) {
+                temp.insert(nums[j]);
+                if (temp.size() == distinct) {
+                    ans++;
+                }
+            }
+        }
+    
+    return ans;   
     }
-    return ans;
-}
 };
