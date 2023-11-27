@@ -8,15 +8,14 @@ public:
     int climbStairs(int n) {
         int a = 1;
         int b = 1;
-        int c=1;
         
-        for(int i = 0; i < (n - 1); ++i) {
-            c = a + b;
+        for(int i = 2; i <=n; ++i) {
+            int c = a + b;
             a = b;
             b = c;
         }
-        cout<<c<<endl;
-        return c;
+        // cout<<c<<endl;
+        return b;
         // vector<int> arr(46,-1);
         // return count(n,arr);
     }
