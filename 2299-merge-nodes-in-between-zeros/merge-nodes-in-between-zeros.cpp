@@ -11,15 +11,16 @@
 class Solution {
 public:
     ListNode* mergeNodes(ListNode* head) {
-        ListNode* ans = new ListNode(0);
-        ListNode* temp = ans;
+        //ListNode* ans = new ListNode(0);
+        ListNode* temp = head;
+        ListNode* ans = head;
         int sum=0;
         while(head!=NULL){
             if(head->val==0){
                 //cout<<sum<<endl;
                 if(sum!=0){
-                    ans->next = new ListNode(sum);
-                    ans = ans->next;
+                    temp->next = new ListNode(sum);
+                    temp = temp->next;
                     sum=0;
                 }
             }
@@ -29,6 +30,6 @@ public:
             }
             head = head->next;
         }
-        return temp->next;
+        return ans->next;
     }
 };
