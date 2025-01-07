@@ -8,7 +8,6 @@ public:
             for(int j=0;j<n;j++){
                 if(words[i]!=words[j]){
                     int pos = words[i].find(words[j]);
-                    //cout<<pos<<" ";
                     if(pos!= string::npos){
                         st.insert(words[j]);
                     }
