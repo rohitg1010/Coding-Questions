@@ -1,27 +1,22 @@
 class Solution {
 public:
     int countDays(int days, vector<vector<int>>& meetings) {
-        sort(meetings.begin(),meetings.end());
-        vector<vector<int>> merged_meetings;
-        int n=meetings.size();
-        merged_meetings.push_back(meetings[0]);
-        for(int i=1;i<n;i++){
-            vector<int> temp = merged_meetings.back();
-            if(meetings[i][0]<=temp[1]){
-                temp[0] = min(meetings[i][0],temp[0]);
-                temp[1] = max(meetings[i][1],temp[1]);
-                merged_meetings.pop_back();
-                merged_meetings.push_back(temp);
-            }
-            else{
-                merged_meetings.push_back(meetings[i]);
+        if (meetings.empty()) return days;  // Edge case: No meetings
+
+        sort(meetings.begin(), meetings.end()); // Sort meetings by start time
+        int merged_days = 0, start = meetings[0][0], end = meetings[0][1];
+
+        for (int i = 1; i < meetings.size(); i++) {
+            if (meetings[i][0] <= end) {
+                end = max(end, meetings[i][1]); // Merge overlapping intervals
+            } else {
+                merged_days += (end - start + 1); // Count merged meeting days
+                start = meetings[i][0];
+                end = meetings[i][1];
             }
         }
-        int ans = 0;
-        for(int i=0;i<merged_meetings.size();i++){
-            //cout<<merged_meetings[i][0]<<" "<<merged_meetings[i][1]<<endl;
-            ans+=(merged_meetings[i][1]-merged_meetings[i][0])+1;
-        }
-        return days-ans;
+        merged_days += (end - start + 1); // Count last merged interval
+
+        return days - merged_days; // Return available days
     }
 };
