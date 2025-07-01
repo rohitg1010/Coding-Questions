@@ -12,11 +12,6 @@ public:
                 temp="";
             }
         }
-        if(temp.size()>0&&st.find(temp)==st.end()){
-            //st.insert(temp);
-            ans.push_back(temp);
-            temp="";
-        }
         return ans;
     }
 };
