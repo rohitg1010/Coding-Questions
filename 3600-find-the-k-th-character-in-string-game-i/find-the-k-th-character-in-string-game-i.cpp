@@ -1,15 +1,22 @@
 class Solution {
 public:
     static char kthCharacter(int k) {
-        if (k==1) return 'a';
-        int shift=0;
-        for(int b=bit_ceil((unsigned)k); b>1; b>>=1) {
-            if (k>b/2){
-                k-=b/2;
-                shift++;
+        string s = "";
+        k--; // Convert to 0-based index
+
+        // Convert k to binary (least significant bit first)
+        while (k) {
+            s += (k & 1) + '0';
+            k >>= 1;
+        }
+
+        int res = 0;
+        for (int i = 0; i < s.size(); i++) {
+            if (s[i] == '1') {
+                res ++;  // Only apply shift if the bit is set
             }
         }
-        // 'a' shifted by how many times it moved into second half
-        return 'a'+(shift%26);
+
+        return 'a' + res % 26;
     }
 };
