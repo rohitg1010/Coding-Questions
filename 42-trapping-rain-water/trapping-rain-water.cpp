@@ -8,16 +8,14 @@ public:
 
         while (left < right) {
             if (height[left] < height[right]) {
-                if (height[left] >= left_max) {
-                    left_max = height[left];
-                } else {
+                left_max = max(left_max,height[left]);
+                if (left_max-height[left]>0){
                     water_stored += left_max - height[left];
                 }
                 left++;
             } else {
-                if (height[right] >= right_max) {
-                    right_max = height[right];
-                } else {
+                right_max = max(right_max,height[right]);
+                if (right_max - height[right]>0){
                     water_stored += right_max - height[right];
                 }
                 right--;
