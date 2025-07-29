@@ -1,26 +1,26 @@
 class Solution {
 public:
     vector<int> productExceptSelf(vector<int>& nums) {
-        int cnt=0,n=nums.size(),product=1;
-        for(auto it:nums){
-            if(it==0) cnt++;
-            else{
-                product*=it;
-            }
-        }
-        vector<int> ans(n,0);
-        if(cnt>1) return ans;
-        for(int i=0;i<n;i++){
-            if(cnt&&nums[i]!=0){
-                ans[i]=0;
-            }
-            else if(cnt&&nums[i]==0){
-                ans[i]=product;
-            }
-            else{
-                ans[i]=product/nums[i];
-            }
-        }
-        return ans;
+    int n = nums.size();
+    vector<int> result(n, 1);
+
+    // Pass 1: Compute prefix product for each index
+    int prefix = 1;
+    for(int i = 0; i < n; i++) {
+        result[i] = prefix;
+        cout<<result[i]<<" ";
+        prefix *= nums[i];
     }
+    cout<<endl;
+    // Pass 2: Multiply with suffix product
+    int suffix = 1;
+    for(int i = n - 1; i >= 0; i--) {
+        result[i] *= suffix;
+        cout<<result[i]<<" ";
+        suffix *= nums[i];
+    }
+
+    return result;
+}
+
 };
