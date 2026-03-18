@@ -16,15 +16,10 @@ public:
                     sum[i][j] = grid[i][j] + sum[i - 1][j];
                 else
                     sum[i][j] = grid[i][j] + sum[i - 1][j] + sum[i][j - 1] - sum[i - 1][j - 1];
-            }
-        }
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
                 if (sum[i][j] <= k) ans++;
             }
         }
-
         return ans;
     }
 };
