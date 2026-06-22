@@ -49,11 +49,11 @@ public:
                 {
                 temp.push_back(r) ; 
                 
-              
+              //  cout << r ;
                 }
                
             }
-            answer.push_back(temp) ;
+            answer.push_back(temp);
         }
         
         return answer ;
