@@ -11,43 +11,54 @@
  */
 class Solution {
 public:
-
-
-TreeNode* answer(TreeNode* root , int x)
-{
-
-if (root == nullptr)
-{
-    TreeNode* newNode = new TreeNode(x);
-return newNode;
-
-}
-
-
-if (root->val > x)
-root->left = answer(root->left , x);
-else
-root->right = answer(root->right , x);
-
-return root ;
-
-}
-
-
     TreeNode* bstFromPreorder(vector<int>& preorder) {
-    TreeNode* root = new TreeNode() ;
-    root = nullptr ;
+        int k = preorder[0] ; 
 
-     for (int i = 0 ; i < preorder.size() ; i++)
-     {
-        root = answer(root , preorder[i]);
-     }
+        TreeNode* root = new TreeNode (k) ; 
+
+        stack <TreeNode*> st ; 
+
+         TreeNode* temp = root ; 
+
+         queue <int> q ; 
+
+         for (int i = 1 ; i < preorder.size() ; i++)
+         {
+            q.push(preorder[i]) ; 
+         }
+
+       while (! q.empty())
+       {
+        int x = q.front() ; 
+if (x < temp->val)
+{
+    if (temp->left == nullptr)
+    {
+         TreeNode* root1 = new TreeNode (x) ; 
+         temp->left = root1 ; 
+         temp = root ; 
+         q.pop () ; 
+    }
+    else 
+    temp = temp->left ; 
+}
+else
+{
+     if (temp->right == nullptr)
+    {
+         TreeNode* root1 = new TreeNode (x) ; 
+         temp->right = root1 ; 
+         temp = root ; 
+         q.pop () ;
+    }
+    else 
+    temp = temp->right ; 
+}
 
 
-     return root ;
+       }
 
-
-
-
+       return root ; 
+        
     }
 };
