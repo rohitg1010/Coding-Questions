@@ -1,22 +1,43 @@
 class Solution {
 public:
-    // int count(int n,vector<int>&arr){
-    //     if(n<=1) return 1;
-    //     if(arr[n]==-1) arr[n]=count(n-1,arr)+count(n-2,arr);
-    //     return arr[n];
-    // }
+
+
+int answer ( int i , int n , int ans , vector<vector<int>> & dp)
+{
+
+
+if (ans == n)
+return 1 ; 
+
+
+if (ans > n)
+return 0 ; 
+
+
+if (dp[i][ans] != -1)
+return dp[i][ans] ; 
+
+int onemove = answer(0 , n , ans + 1 , dp) ; 
+int twomove = answer(1 , n , ans + 2 , dp ) ;
+
+
+return dp[i][ans] = onemove + twomove ; 
+
+
+
+
+}
+
+
     int climbStairs(int n) {
-        int a = 1;
-        int b = 1;
+        int ans = 0 ;
+
+        vector<vector<int>>dp(n , vector<int>(n+1 , -1)) ;
+        int i = 0 ;
+
+        int k = answer(i , n , ans , dp) ;
+
+        return k ; 
         
-        for(int i = 2; i <=n; ++i) {
-            int c = a + b;
-            a = b;
-            b = c;
-        }
-        // cout<<c<<endl;
-        return b;
-        // vector<int> arr(46,-1);
-        // return count(n,arr);
     }
 };
