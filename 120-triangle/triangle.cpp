@@ -3,8 +3,11 @@ public:
 
 int answer(vector<vector<int>>& triangle , int i , int j , int n ,  vector<vector<int>> &dp  )
 {
-    if (i == n -1)
-    return triangle[i][j] ; 
+    // if (i == n -1)
+    // return triangle[i][j] ; 
+
+    if (i >= n)
+    return 0 ;
 
     if (j >= triangle[i].size())
     return 0 ; 
